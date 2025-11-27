@@ -18,6 +18,7 @@ class SupplyDemandPeriod(BaseModel):
     foreign_net: str
     institution_net: str
     individual_net: str
+    summary: Optional[str] = None  # 기간별 요약 멘트
 
 class SupplyDemand(BaseModel):
     """수급 정보"""
@@ -86,6 +87,7 @@ class StockAnalysis(BaseModel):
     investment_points: InvestmentPoint
     recent_issues: List[NewsItem]
     analyst_opinions: List[AnalystOpinion]
+    analyst_summary: Optional[str] = None  # 증권사 목표가 트렌드 요약
     sector_name: str
     sector_news: List[SectorNews]
     investment_metrics: InvestmentMetrics
