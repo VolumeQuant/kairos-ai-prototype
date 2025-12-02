@@ -79,7 +79,7 @@ const EmptyState = () => {
                     <span className="material-icons empty-icon">show_chart</span>
                 </div>
                 <h2>종목을 선택해주세요</h2>
-                <p>상단에서 분석하실 종목을 선택하면<br/>AI가 종합 분석한 시황 정보를 제공합니다.</p>
+                <p>우측 상단에서 분석하실 종목을 선택하면<br/>AI가 종합 분석한 시황 정보를 제공합니다.</p>
                 <div className="empty-features">
                     <div className="feature-item">
                         <span className="material-icons">auto_awesome</span>
@@ -370,11 +370,18 @@ const PerformanceCard = ({ performance }) => {
         return '';
     };
     
+    // earnings_surprise에서 퍼센트 부분만 추출 (예: "순이익 전년대비 +10.6%" -> "+10.6%")
+    const getNetProfitYoy = () => {
+        if (!performance.earnings_surprise) return null;
+        const match = performance.earnings_surprise.match(/[+\-][\d.]+%/);
+        return match ? match[0] : null;
+    };
+    
     return (
         <div className="card performance-card animate-scale-in" style={{animationDelay: '0.4s'}}>
             <div className="card-header">
                 <span className="material-icons">bar_chart</span>
-                <h3>4분기 실적 컨센서스</h3>
+                <h3>2025년 연간 실적 컨센서스</h3>
             </div>
             <div className="card-content">
                 <div className="performance-grid">
@@ -385,12 +392,7 @@ const PerformanceCard = ({ performance }) => {
                             <div className="performance-comparison">
                                 {performance.revenue_yoy && (
                                     <span className={`comparison-item ${getComparisonClass(performance.revenue_yoy)}`}>
-                                        전년동기: {performance.revenue_yoy}
-                                    </span>
-                                )}
-                                {performance.revenue_qoq && (
-                                    <span className={`comparison-item ${getComparisonClass(performance.revenue_qoq)}`}>
-                                        직전분기: {performance.revenue_qoq}
+                                        전년대비: {performance.revenue_yoy}
                                     </span>
                                 )}
                             </div>
@@ -403,12 +405,7 @@ const PerformanceCard = ({ performance }) => {
                             <div className="performance-comparison">
                                 {performance.operating_profit_yoy && (
                                     <span className={`comparison-item ${getComparisonClass(performance.operating_profit_yoy)}`}>
-                                        전년동기: {performance.operating_profit_yoy}
-                                    </span>
-                                )}
-                                {performance.operating_profit_qoq && (
-                                    <span className={`comparison-item ${getComparisonClass(performance.operating_profit_qoq)}`}>
-                                        직전분기: {performance.operating_profit_qoq}
+                                        전년대비: {performance.operating_profit_yoy}
                                     </span>
                                 )}
                             </div>
@@ -416,7 +413,16 @@ const PerformanceCard = ({ performance }) => {
                     </div>
                     <div className="performance-item animate-slide-in" style={{animationDelay: '0.2s'}}>
                         <span className="performance-label">순이익</span>
-                        <span className="performance-value">{performance.net_profit}</span>
+                        <div className="performance-value-group">
+                            <span className="performance-value">{performance.net_profit}</span>
+                            <div className="performance-comparison">
+                                {getNetProfitYoy() && (
+                                    <span className={`comparison-item ${getComparisonClass(getNetProfitYoy())}`}>
+                                        전년대비: {getNetProfitYoy()}
+                                    </span>
+                                )}
+                            </div>
+                        </div>
                     </div>
                 </div>
                 {/* 2번: AI 요약 아이콘 추가 */}
