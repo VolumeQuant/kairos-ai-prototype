@@ -16,19 +16,36 @@ HTS 사용자는 수많은 정보를 한 화면에 띄워놓고 시장 상황을
 
 ## 🚀 실행 방법
 
-### 1. 의존성 설치
+### 방법 1: 배치 파일 사용 (추천 - Windows)
+
+#### 전체 서비스 실행 (서버 + ngrok)
+- **`start_all_simple.bat`** 더블클릭
+  - 서버와 ngrok을 동시에 실행합니다
+  - Python 경로와 ngrok 경로가 자동으로 설정됩니다
+
+#### 개별 실행
+- **`start_uvicorn.bat`** - 서버만 실행
+- **`start_ngrok.bat`** - ngrok만 실행
+- **`빠른시작.bat`** - 서버 실행 (ngrok은 수동 실행 필요)
+
+#### 진단 도구
+- **`진단.bat`** - 시스템 설정 확인 (Python, uvicorn, FastAPI, ngrok 설치 여부 확인)
+
+### 방법 2: 수동 실행
+
+#### 1. 의존성 설치
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 2. 서버 실행
+#### 2. 서버 실행
 
 ```bash
 uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 ```
 
-### 3. 브라우저에서 접속
+#### 3. 브라우저에서 접속
 
 ```
 http://localhost:8000
